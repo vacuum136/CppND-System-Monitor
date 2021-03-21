@@ -3,7 +3,8 @@
 
 #include <string>
 #include <vector>
-
+#include <unordered_map>
+#include "linux_parser.h"
 #include "process.h"
 #include "processor.h"
 
@@ -22,6 +23,7 @@ class System {
  private:
   Processor cpu_ = {};
   std::vector<Process> processes_ = {};
+  std::unordered_map<int, std::string> user_map_ = {};
 };
 
 #endif
