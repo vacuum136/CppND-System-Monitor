@@ -4,6 +4,7 @@
 #include <fstream>
 #include <regex>
 #include <string>
+class System;
 class Process;
 
 namespace LinuxParser {
@@ -20,6 +21,7 @@ const std::string kOSPath{"/etc/os-release"};
 const std::string kPasswordPath{"/etc/passwd"};
 
 // System
+void SystemUpdate(System& system);
 float MemoryUtilization();
 long UpTime();
 std::vector<int> Pids();
@@ -41,6 +43,7 @@ enum CPUStates {
   kGuest_,
   kGuestNice_
 };
+int CpuCores();
 std::vector<std::string> CpuUtilization();
 long Jiffies();
 long ActiveJiffies();
@@ -48,12 +51,12 @@ long ActiveJiffies(int pid);
 long IdleJiffies();
 
 // Processes
-void Processinfo(Process& process);
+void ProcessUpdate(Process& process);
 std::string Command(int pid);
 std::string Ram(int pid);
 std::string Uid(int pid);
 std::string User(int pid);
-long UpTime(int pid);
+long int UpTime(int pid);
 };  // namespace LinuxParser
 
 #endif

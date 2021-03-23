@@ -1,0 +1,14 @@
+﻿
+//System
+TotalProcesses: 			/proc/stat
+RunningProcesses: 			/proc/stat
+Uptime_system:				/proc/uptime
+Mem_Utilization:			/proc/meminfo
+User:						/etc/passwd
+
+//Process
+Command: 					/proc/[pid]/cmdline
+Ram:						/proc/[pid]/status
+Uid:						/proc/[pid]/status
+Uptime_process				/proc/[pid]/stat
+Cpu_Utilization_process:	/proc/[pid]/stat

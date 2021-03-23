@@ -3,13 +3,15 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
-#include "linux_parser.h"
 #include "process.h"
 #include "processor.h"
+#include "linux_parser.h"
 
 class System {
+ friend void LinuxParser::SystemUpdate(System& system);
  public:
+  System();
+  System& Update();      //ADDED: read and update system status
   Processor& Cpu();                   // TODO: See src/system.cpp
   std::vector<Process>& Processes();  // TODO: See src/system.cpp
   float MemoryUtilization();          // TODO: See src/system.cpp
@@ -22,8 +24,13 @@ class System {
   // TODO: Define any necessary private members
  private:
   Processor cpu_ = {};
-  std::vector<Process> processes_ = {};
-  std::unordered_map<int, std::string> user_map_ = {};
+  std::vector<Process> processes_{};
+  std::string kernel_;
+  std::string operating_system_;
+  int total_processes_{0};
+  int running_processes_{0};
+  float mem_ultilization_{0};
+  long uptime_{0};
 };
 
 #endif

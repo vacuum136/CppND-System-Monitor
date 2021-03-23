@@ -80,6 +80,7 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
     mvwprintw(window, row, command_column,
               processes[i].Command().substr(0, window->_maxx - 46).c_str());
   }
+  wrefresh(window);
 }
 
 void NCursesDisplay::Display(System& system, int n) {
@@ -98,10 +99,10 @@ void NCursesDisplay::Display(System& system, int n) {
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     box(system_window, 0, 0);
     box(process_window, 0, 0);
-    DisplaySystem(system, system_window);
+    DisplaySystem(system.Update(), system_window);
     DisplayProcesses(system.Processes(), process_window, n);
-    wrefresh(system_window);
-    wrefresh(process_window);
+    //refresh(system_window);
+    //wrefresh(process_window);
     refresh();
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
