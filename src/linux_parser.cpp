@@ -250,11 +250,10 @@ void LinuxParser::ProcessUpdate(Process& process){
       }
     }
   }
-  stream.close();
   total_time = std::stol(utime) + std::stol(stime) + std::stol(cutime) + std::stol(cstime);
-  process.uptime_ = std::stol(starttime) / sysconf(_SC_CLK_TCK);
-  process.cpu_ultilization_ = (float)(total_time / sysconf(_SC_CLK_TCK)) /\
-      (float)(LinuxParser::UpTime() - process.uptime_);
+  process.uptime_ = UpTime() - std::stol(starttime)/sysconf(_SC_CLK_TCK);
+  process.cpu_ultilization_ = (float)(total_time/sysconf(_SC_CLK_TCK))/\
+      (float)(process.uptime_);
   process.ram_ = Ram(process.pid_);
 }
 
