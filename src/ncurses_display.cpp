@@ -49,7 +49,7 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
       ("Running Processes: " + to_string(system.RunningProcesses())).c_str());
   mvwprintw(window, ++row, 2,
             ("Up Time: " + Format::ElapsedTime(system.UpTime())).c_str());
-  wrefresh(window);
+  wnoutrefresh(window);
 }
 
 void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
@@ -80,7 +80,7 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
     mvwprintw(window, row, command_column,
               processes[i].Command().substr(0, window->_maxx - 46).c_str());
   }
-  wrefresh(window);
+  wnoutrefresh(window);
 }
 
 void NCursesDisplay::Display(System& system, int n) {
@@ -95,15 +95,15 @@ void NCursesDisplay::Display(System& system, int n) {
       newwin(3 + n, x_max - 1, system_window->_maxy + 1, 0);
 
   while (1) {
+    werase(system_window);
+    werase(process_window);
     init_pair(1, COLOR_BLUE, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     box(system_window, 0, 0);
     box(process_window, 0, 0);
-    DisplaySystem(system.Update(), system_window);
+    DisplaySystem(system, system_window);
     DisplayProcesses(system.Processes(), process_window, n);
-    //refresh(system_window);
-    //wrefresh(process_window);
-    refresh();
+    doupdate();
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
   endwin();
