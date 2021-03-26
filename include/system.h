@@ -5,13 +5,10 @@
 #include <vector>
 #include "process.h"
 #include "processor.h"
-#include "linux_parser.h"
 
 class System {
- friend void LinuxParser::SystemUpdate(System& system);
  public:
   System();
-  System& Update();      //ADDED: read and update system status
   Processor& Cpu();                   // TODO: See src/system.cpp
   std::vector<Process>& Processes();  // TODO: See src/system.cpp
   float MemoryUtilization();          // TODO: See src/system.cpp
