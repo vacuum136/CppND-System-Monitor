@@ -27,18 +27,19 @@ vector<Process>& System::Processes() {
     std::vector<int> pids_current = LinuxParser::Pids();
     //clear and ready for update
     processes_.clear();
-    processes_.reserve(pids_current.size());
     //check each actual pid in previous set
     //if found previous process, then update the cpu utilization
     //if process is new, unnecessary to update the cpu utilization 
     //final, add the process into the vector of processes
     for(int pid:pids_current){
         Process tmp(pid);
-        auto got = processes_pre.find(tmp);
-        if(got != processes_pre.end()){
-            tmp.CpuUtilization(*got);
+        if(!tmp.Ram().empty()){
+            auto got = processes_pre.find(tmp);
+            if(got != processes_pre.end()){
+                tmp.CpuUtilization(*got);
+            }
+            processes_.push_back(tmp);
         }
-        processes_.push_back(tmp);
     }
     // descending sort the vector based on cpu utilization
     std::sort(processes_.begin(),processes_.end(),[](Process& a, Process& b){ return a > b;});

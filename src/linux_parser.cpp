@@ -259,7 +259,8 @@ string LinuxParser::Command(int pid) {
   string line;
   std::ifstream stream(kProcDirectory + std::to_string(pid) + kCmdlineFilename);
   if(stream.is_open()){
-    std::getline(stream,line);
+    if(std::getline(stream,line))
+      std::replace(line.begin(),line.end()-1,'\0',' ');
   }
   return line;
 }

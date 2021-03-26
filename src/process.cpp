@@ -14,6 +14,7 @@ Process::Process(int pid):pid_(pid),
     user_(LinuxParser::User(pid_)),cmdline_(LinuxParser::Command(pid_)){
         active_jiffies_ = LinuxParser::ActiveJiffies(pid_);
         total_jiffies_ = LinuxParser::Jiffies();
+        ram_ = LinuxParser::Ram(pid_);
         cpu_utilization_ = (float)active_jiffies_/(float)total_jiffies_;
     }
 
@@ -30,7 +31,6 @@ void Process::CpuUtilization(const Process& pre){
     //delta
     active_delta = (active_jiffies_ > pre.active_jiffies_) ? (active_jiffies_-pre.active_jiffies_) : 0;
     total_delta = (total_jiffies_ > pre.total_jiffies_) ? (total_jiffies_-pre.total_jiffies_) : 0;
-    
     cpu_utilization_ = (float)active_delta/(float)total_delta;
 }
 
@@ -38,7 +38,7 @@ void Process::CpuUtilization(const Process& pre){
 string Process::Command() const { return cmdline_; }
 
 // DONE: Return this process's memory utilization
-string Process::Ram() { return LinuxParser::Ram(pid_); }
+string Process::Ram() { return ram_; }
 
 // DONE: Return the user (name) that generated this process
 string Process::User() const { return user_; }
