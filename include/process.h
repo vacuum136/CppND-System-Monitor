@@ -2,20 +2,18 @@
 #define PROCESS_H
 
 #include <string>
-#include "linux_parser.h"
 /*
 Basic class for Process representation
 It contains relevant attributes as shown below
 */
 class Process {
- friend void LinuxParser::ProcessUpdate(Process& process);
  public:
-  Process()=default;
-  Process(int pid);     //ADDED: Constructor with specified pid
+  Process(int pid);     //Constructor with specified pid
   int Pid();                               // TODO: See src/process.cpp
   std::string User() const;                      // TODO: See src/process.cpp
   std::string Command() const;                   // TODO: See src/process.cpp
   float CpuUtilization();                  // TODO: See src/process.cpp
+  void CpuUtilization(const Process& pre); // Calculate current cpu utilization
   std::string Ram();                       // TODO: See src/process.cpp
   long int UpTime();                       // TODO: See src/process.cpp
   bool operator<(Process const& a) const;  // TODO: See src/process.cpp
@@ -26,9 +24,10 @@ class Process {
   unsigned int pid_;  //ADDED: const class member pid
   std::string user_;
   std::string cmdline_;
-  long uptime_{0};
-  float cpu_ultilization_{0};
   std::string ram_{};
+  long active_jiffies_{0};
+  long total_jiffies_{0};
+  float cpu_utilization_{0};
 };
 
 #endif

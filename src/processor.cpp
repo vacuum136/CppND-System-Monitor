@@ -2,11 +2,11 @@
 #include "processor.h"
 #include "linux_parser.h"
 
-//Constructor
+//Processor constructor
 Processor::Processor():cpu_cores_(LinuxParser::CpuCores()){}
 
-// ADDED: Update cpu info
-Processor& Processor::Update(){
+// DONE: Return the aggregate CPU utilization
+float Processor::Utilization() { 
     unsigned long long idle_pre, total_pre, idle, total, idle_delta, total_delta; 
     //previous cpu statistics
     idle_pre = processor_stat_[LinuxParser::kIdle_] + processor_stat_[LinuxParser::kIOwait_];
@@ -14,7 +14,7 @@ Processor& Processor::Update(){
     //read and store the actual cpu info 
     auto it = processor_stat_.begin();
     for(auto& i:LinuxParser::CpuUtilization()){
-        *it++ = std::stoll(i);
+        *it++ = std::stoull(i);
     }
     //actual cpu statistics
     idle = processor_stat_[LinuxParser::kIdle_] + processor_stat_[LinuxParser::kIOwait_];
@@ -23,9 +23,6 @@ Processor& Processor::Update(){
     idle_delta = idle - idle_pre;
     total_delta = total - total_pre;
     // calculate cpu ultilization
-    cpu_ultilization_ = (float)(total_delta - idle_delta)/(float)total_delta;
-    return *this;
+    cpu_utilization_ = (double)(total_delta - idle_delta)/(double)total_delta;
+    return cpu_utilization_;
 }
-
-// DONE: Return the aggregate CPU utilization
-float Processor::Utilization() { return cpu_ultilization_; }

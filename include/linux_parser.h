@@ -4,8 +4,6 @@
 #include <fstream>
 #include <regex>
 #include <string>
-class System;
-class Process;
 
 namespace LinuxParser {
 // Paths
@@ -21,9 +19,8 @@ const std::string kOSPath{"/etc/os-release"};
 const std::string kPasswordPath{"/etc/passwd"};
 
 // System
-void SystemUpdate(System& system);
 float MemoryUtilization();
-long UpTime();
+float UpTime();
 std::vector<int> Pids();
 int TotalProcesses();
 int RunningProcesses();
@@ -51,12 +48,11 @@ long ActiveJiffies(int pid);
 long IdleJiffies();
 
 // Processes
-void ProcessUpdate(Process& process);
 std::string Command(int pid);
 std::string Ram(int pid);
 std::string Uid(int pid);
 std::string User(int pid);
-long int UpTime(int pid);
+float UpTime(int pid);
 };  // namespace LinuxParser
 
 #endif
